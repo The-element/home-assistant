@@ -1,0 +1,38 @@
+##################### BROADLINK: ##################### 
+learn_tv_commands:
+  sequence:
+    - service: remote.learn_command
+      data:
+        entity_id: remote.broadlink
+        device: television
+        command:
+          - volume up
+          - volume down
+          - mute
+          - channel up
+          - channel down
+          - channel 0
+          - channel 1
+          - channel 2
+          - channel 3
+          - channel 4
+          - channel 5
+          - channel 6
+          - channel 7
+          - channel 8
+          - channel 9
+          - source antenna
+          - source hdmi
+          - source hdmi1
+          - source hdmi2
+          - source hdmi3
+          - source hdmi4
+
+learn_tv_power_button:
+  sequence:
+    - service: remote.learn_command
+      data:
+        entity_id: remote.broadlink
+        device: TV
+        command: power
+        alternative: True

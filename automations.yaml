@@ -1,0 +1,112 @@
+##################### RECORD STATES OF EXISTING SENSOR: ##################### 
+- alias: Record state of sensor.flashforgefinder_firmware
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_firmware
+  condition:
+    condition: template
+    value_template: >
+        {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_name
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_name
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_one
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_sn
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_sn
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_two
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_tool_count
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_tool_count
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_three
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_type
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_type
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_four
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_x
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_x
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_five
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinder_machinestatus
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinder_machinestatus
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_six
+    data_template:
+      value: "{{ trigger.to_state.state }}"
+      
+- alias: Record state of sensor.flashforgefinderprogress_bytesprinted
+  trigger:
+    platform: state
+    entity_id: sensor.flashforgefinderprogress_bytesprinted
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.to_state.state not in [trigger.from_state.state, 'unknown'] }}
+  action:
+    service: input_text.set_value
+    entity_id: input_text.my_sensor_most_recent_eleven
+    data_template:
+      value: "{{ trigger.to_state.state}}"

@@ -1,0 +1,240 @@
+##################### DEFAULT CONFIG: ##################### 
+default_config:
+
+##################### HTTP: ##################### 
+http:
+    base_url: https://castlegreyskull.duckdns.org
+    ssl_certificate: /ssl/fullchain.pem
+    ssl_key: /ssl/privkey.pem
+
+##################### Google Assistant: #####################
+
+google_assistant:
+  project_id: home-assistant-d3a7a
+  service_account: !include project-8d7fa6667552.json
+  report_state: true
+  exposed_domains:
+    - switch
+    - light
+#  entity_config:
+#    switch.kitchen:
+#      name: CUSTOM_NAME_FOR_GOOGLE_ASSISTANT
+#      aliases:
+#        - BRIGHT_LIGHTS
+#        - ENTRY_LIGHTS
+#    light.living_room:
+#      expose: false
+#      room: LIVING_ROOM
+      
+##################### ROBOROCK: ##################### 
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.1.198
+    token: !secret roborock_token
+
+##################### DISCOVERY: #####################
+discovery:
+
+##################### ZWAVE: #####################
+zwave:
+  usb_path: /dev/serial/by-id/usb-0658_0200-if00
+
+##################### PANEL IFRAME #####################
+panel_iframe:
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: https://castlegreyskull.duckdns.org:9541
+
+##################### AJAX ALARM: ##################### 
+sia:
+  port:  54000
+  hubs:
+    - name: ajax_hub
+      account: AAA
+      password: !secret ajax_secret
+
+##################### GOOGLE: ##################### 
+google:
+  client_id: !secret google_id
+  client_secret: !secret google_secret
+
+##################### SPOTIFY: ##################### 
+spotify:
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
+
+##################### INFLUXDB: ##################### 
+influxdb:
+  host: 192.168.1.30
+  port: 8086
+  database: home_assistant
+  username: !secret influx_username
+  password: !secret influx_password
+#  ssl: true
+#  verify_ssl: true
+  max_retries: 3
+#  exclude:
+#    entities:
+#       - entity.id1
+#       - entity.id2
+#    domains:
+#       - automation
+  include:
+    entities:
+      - sensor.ac_temperature
+      - sensor.average_electricity_price
+      - sensor.average_humidity_inside
+      - sensor.average_humidity_outside
+      - sensor.average_temperature_inside
+      - sensor.average_temperature_outside
+      - sensor.bedroom_temperature
+      - sensor.electricity_price_jarnaldersringen_783
+      - sensor.exchange_rate_1_btc
+      - sensor.rt_ac2900_54b8_bytes_received
+      - sensor.rt_ac2900_54b8_bytes_sent
+      - sensor.rt_ac2900_54b8_kib_sec_received
+      - sensor.rt_ac2900_54b8_kib_sec_sent
+      - sensor.rt_ac2900_54b8_packets_received
+      - sensor.rt_ac2900_54b8_packets_sec_received
+      - sensor.rt_ac2900_54b8_packets_sec_sent
+      - sensor.rt_ac2900_54b8_packets_sent
+      - sensor.shelly_shht_1_e016b8_humidity
+      - sensor.shelly_shht_1_e016b8_temperature
+      - sensor.shelly_shht_1_e01704_humidity
+      - sensor.shelly_shht_1_e01704_temperature
+      - sensor.smhi_home_temperature
+      - sensor.sweden_coronavirus_confirmed
+      - sensor.sweden_coronavirus_current
+      - sensor.sweden_coronavirus_deaths
+      - sensor.sweden_coronavirus_recovered
+      - sensor.trade_volume
+      - sensor.worldwide_coronavirus_confirmed
+      - sensor.worldwide_coronavirus_current
+      - sensor.worldwide_coronavirus_deaths
+      - sensor.worldwide_coronavirus_recovered
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_current
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_current_2
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_current_3
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_current_4
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_voltage
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_voltage_2
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_voltage_3
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_voltage_4
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_power
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_power_2
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_power_3
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_power_4
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_energy
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_energy_2
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_energy_3
+      - sensor.aeon_labs_zw095_home_energy_meter_gen5_energy_4
+#  tags:
+#    instance: prod
+#    source: hass
+
+##################### XIAOMI HUB: ##################### 
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: !secret xiaomi_hub
+
+##################### INPUT TEXT: ##################### 
+input_text:
+    my_sensor_most_recent:
+      name: Firmware
+    my_sensor_most_recent_one:
+      name: Name
+    my_sensor_most_recent_two:
+      name: SN
+    my_sensor_most_recent_three:
+      name: Tool Count
+    my_sensor_most_recent_four:
+      name: Type
+    my_sensor_most_recent_five:
+      name: X
+    my_sensor_most_recent_six:
+      name: MachineStatus
+
+##################### TIBBER: ##################### 
+tibber:
+    access_token: !secret tibber_token
+
+##################### FRONTEND: ##################### 
+frontend:
+    themes: !include_dir_merge_named themes
+
+##################### NOTIFICATIONS: ##################### 
+notify:
+  - name: Hass_Notify
+    platform: simplepush
+    device_key: !secret simplepush_key
+    
+  - name: Ll_automate
+    platform: llamalab_automate
+    api_key: !secret ll_key
+    to: !secret mail
+
+##################### CLIMATE: ##################### 
+climate:
+  - platform: sensibo
+    api_key: !secret sensibo_api_key
+
+##################### TUYA: ##################### 
+tuya:
+    username: !secret outlook_mail
+    password: !secret tuya_password
+    country_code: 46
+
+##################### PYTHON SCRIPT: ##################### 
+python_script:
+
+##################### SENSORS: ##################### 
+logger:
+  default: info
+#  logs:
+#    homeassistant.core: fatal
+#    homeassistant.components.mqtt: warning
+
+##################### SHELLY: ##################### 
+shelly:
+
+##################### ROUTER: ##################### 
+asuswrt:
+  host: 192.168.1.1
+  username: !secret wifi_name
+  password: !secret asuswrt_password
+
+##################### REMOTE: ##################### 
+remote:
+  - platform: broadlink
+    host: 192.168.1.151
+    mac: !secret broadlink_mac
+
+##################### SWITCHES: ##################### 
+switch:
+  - platform: broadlink
+    host: 192.168.1.151
+    mac: !secret broadlink_mac
+    friendly_name: IR Control
+    type: rm2_pro_plus
+    switches:
+      samsung_tv_power:
+        friendly_name: Power
+        command_on: 'JgBGAJWPFTMTNRQ0FA8UDxQPEhESERI2EjYTNRQPFA8UDxUOFQ8SNRQPFA8UNBQ0EhESERI2ExAUNBUzFQ4VDxUzFDQUDxQADQUAAA=='
+        command_off: 'JgDSAJaUEzYTNxI4EhISEhMSERMRExI4EjgSNxMSEBQSEhITEBQRExITERMRNhU3EhMQFBI3EzcSOBM2EhMRExI3EjgSEhIABgCUlBI4EzYUNhITERMSEhITEBQSNxM3EjgTERISEhMRExISERQRExISEjgSOBMRERMRORI3EzcTNxETERMRORI3ExISAAYAlJQTNhI4EzYUERISEhMRExISEjgSNxM3EhISExETEhITEhETEhMRExI3EjgTERITETgSOBI3EzcSEhITETgTNxISEgANBQAAAAAAAA=='
+      samsung_tv_mute:
+        friendly_name: Mute
+        command_on: 'JgBGAJGWEDoQOhA6EBUQFREUEBURFBA6ETkRORITERQRFBEUEBURORE5ETkROREUERQTEhEUEBYPFhAVEBUQOg87EDoQOg8ADQUAAA=='
+        command_off: 'JgBGAJGWEDoQOhA6EBUQFREUEBURFBA6ETkRORITERQRFBEUEBURORE5ETkROREUERQTEhEUEBYPFhAVEBUQOg87EDoQOg8ADQUAAA=='
+
+    
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml

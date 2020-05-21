@@ -1,0 +1,298 @@
+### FLASHFORGE FINDER ###
+  - platform: rest
+    name: FlashforgeFinder
+    json_attributes:
+      - Firmware
+      - Name
+      - SN
+      - Tool Count
+      - Type
+      - X
+    resource: http://192.168.1.51:5502/192.168.1.155/info
+    value_template: '{{ value_json.info }}'
+  - platform: template
+    sensors:
+      firmware:
+        value_template: '{{ states.sensor.json_info.attributes["Firmware"] }}'
+      name:
+        value_template: '{{ states.sensor.json_info.attributes["Name"] }}'
+      sn:
+        value_template: '{{ states.sensor.json_info.attributes["SN"] }}'
+      tool_count:
+        value_template: '{{ states.sensor.json_info.attributes["Tool Count"] }}'
+      type:
+        value_template: '{{ states.sensor.json_info.attributes["Type"] }}'
+      x:
+        value_template: '{{ states.sensor.json_info.attributes["X"] }}'
+    
+  - platform: rest
+    name: FlashforgeFinderAxisMovement
+    json_attributes:
+      - X
+      - Y
+      - Z
+    resource: http://192.168.1.51:5502/192.168.1.155/head-location
+    value_template: '{{ value_json.axis }}'
+  - platform: template
+    sensors:
+      x:
+        value_template: '{{ states.sensor.json_axis.attributes["X"] }}'
+      y:
+        value_template: '{{ states.sensor.json_axis.attributes["Y"] }}'
+      z:
+        value_template: '{{ states.sensor.json_axis.attributes["Z"] }}'
+
+  - platform: rest
+    name: FlashforgeFinderTemperature
+    json_attributes:
+      - TargetTemperature
+      - Temperature
+    resource: http://192.168.1.51:5502/192.168.1.155/temp
+    value_template: '{{ value_json.temp }}'
+  - platform: template
+    sensors:
+      targettemperature:
+        friendly_name: "Target Temperature"
+        unit_of_measurement: '°C'
+        value_template: '{{ states.sensor.json_temp.attributes["TargetTemperature"] | int}}'
+      temperature:
+        unit_of_measurement: '°C'
+        value_template: '{{ states.sensor.json_temp.attributes["Temperature"] | int }}'
+    
+  - platform: rest
+    name: FlashforgeFinderProgress
+    json_attributes:
+      - BytesPrinted
+      - BytesTotal
+      - PercentageCompleted
+    resource: http://192.168.1.51:5502/192.168.1.155/progress
+    value_template: '{{ value_json.progress }}'
+  - platform: template
+    sensors:
+      bytesprinted:
+        value_template: '{{ states.sensor.json_progress.attributes["BytesPrinted"] | int }}'
+        unit_of_measurement: '%'
+      bytestotal:
+        value_template: '{{ states.sensor.json_progress.attributes["BytesTotal"] | int}}'
+   #   percentagecompleted:
+   #     friendly_name: "Print Progress:"
+   #     unit_of_measurement: '%'
+   #     value_template: '{{ states.sensor.json_progress.attributes["PercentageCompleted"] | int}}'
+
+  - platform: rest
+    name: FlashforgeFinderStatus
+    json_attributes:
+      - Endstop
+      - MachineStatus
+      - MoveMode
+      - Status
+    resource: http://192.168.1.51:5502/192.168.1.155/status
+    value_template: '{{ value_json.status }}'
+  - platform: template
+    sensors:
+      endstop:
+        value_template: '{{ states.sensor.json_status.attributes["Endstop"] }}'
+      machinestatus:
+        value_template: '{{ states.sensor.json_status.attributes["MachineStatus"] }}'
+      movemode:
+        value_template: '{{ states.sensor.json_status.attributes["MoveMode"] }}'
+      percentagecompleted:
+        value_template: '{{ states.sensor.json_status.attributes["Status"] }}'
+
+### Breakout of attributes from Flashforge Finder Information ###
+
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information Firmware"
+    attribute: Firmware
+    entities:
+      - sensor.flashforgefinder
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information Name"
+    attribute: Name
+    entities:
+      - sensor.flashforgefinder
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information SN"
+    attribute: SN
+    entities:
+      - sensor.flashforgefinder
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information Tool Count"
+    attribute: Tool Count
+    entities:
+      - sensor.flashforgefinder
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information Type"
+    attribute: Type
+    entities:
+      - sensor.flashforgefinder
+
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information X"
+    attribute: X
+    entities:
+      - sensor.flashforgefinder
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information MachineStatus"
+    attribute: MachineStatus
+    entities:
+      - sensor.flashforgefinderstatus
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Information Bytes Total"
+    attribute: BytesTotal
+    entities:
+      - sensor.flashforgefinderprogress
+      
+  - platform: attributes
+    friendly_name: "Flashforge Finder Progress Bytes Printed"
+    attribute: BytesPrinted
+    entities:
+      - sensor.flashforgefinderprogress
+
+### /FLASHFORGE FINDER ###
+
+### STOCKOLMS LÄNSTRAFIK ###
+  - platform: hasl
+    ri4key: !secret ri4_key
+    si2key: !secret si2_key
+    tl2key: !secret tl2_key
+    sensors:
+     - friendly_name: Järnåldersringen
+       sensor_type: departures
+       siteid: 8236
+       lines: ['832']
+       direction: 2
+     - friendly_name: Trafikstatus
+       sensor_type: status
+     - friendly_name: Vega
+       sensor_type: departures
+       siteid: 9733
+       lines: ['43']
+       direction: 2
+     - friendly_name: Trafikstatus
+       sensor_type: status
+### /STOCKOLMS LÄNSTRAFIK ###
+
+### KRISINFORMATION ###
+  - platform: krisinformation
+    name: "Krisinformation Stockholm"
+    county: "Stockholms län"
+    latitude: !secret latitude
+    longitude: !secret longitude
+    radius: 100
+### /KRISINFORMATION ###
+
+### LAST.FM ###
+  - platform: lastfm
+    api_key: !secret lastfm_key
+    users:
+      - theelementhuman
+### /LAST.FM ###
+
+### DELUGE ###
+  - platform: deluge
+    host: 192.168.1.53
+    port: 58846
+    username: pi
+    password: !secret deluge_password
+    monitored_variables:
+      - 'current_status'
+      - 'download_speed'
+      - 'upload_speed'
+### /DELUGE ###
+
+### BROTTSPLATSKARTAN ###
+  - platform: brottsplatskartan
+### /BROTTSPLATSKARTAN ###
+
+### BITCOIN ###
+  - platform: bitcoin
+    display_options:
+      - exchangerate
+      - trade_volume_btc
+### /BITCOIN ###
+
+### DISCOGS ###
+  - platform: discogs
+    token: !secret discogs_token
+### /DISCOGS ###
+ 
+### WAZE ###
+  - platform: waze_travel_time
+    origin: 59.185566, 18.163822
+    destination: 59.419630, 17.923604
+    region: 'EU'
+### /WAZE ###
+
+
+### BREAKING OUT TEMPERATURE ATTRIBUTE FROM ENTITIES ###
+
+### Bedroom temperature breakout from Shelly ###
+  - platform: template
+    sensors:
+      bedroom_temperature:
+        friendly_name: "Bedroom Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.shelly_shht_1_e016b8_temperature') | int }}"
+
+### Livingroom temperature breakout from Air conditioner ###
+  - platform: template
+    sensors:
+      ac_temperature:
+        friendly_name: "AC Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ state_attr('climate.ac', 'current_temperature') | int }}"
+        
+### Outdoor temperature breakout from SMHI ###
+  - platform: attributes
+    friendly_name: "SMHI Temperature"
+    attribute: temperature
+    unit_of_measurement: "°C"
+    entities:
+      - weather.smhi_home
+
+
+### CREATING AVERAGES ###
+
+  - platform: average
+    name: 'Average Temperature Outside'
+    duration:
+      days: 1
+    entities:
+      - sensor.shelly_shht_1_e01704_temperature
+      - sensor.smhi_home_temperature
+
+  - platform: average
+    name: 'Average Humidity Outside'
+    duration:
+      days: 1
+    entities:
+      - sensor.shelly_shht_1_e01704_humidity
+
+  - platform: average
+    name: 'Average Humidity Inside'
+    duration:
+      days: 1
+    entities:
+      - sensor.shelly_shht_1_e016b8_humidity
+      
+  - platform: average
+    name: 'Average Electricity Price'
+    duration:
+      days: 1
+    entities:
+      - sensor.electricity_price_jarnaldersringen_783
+    
+  - platform: average
+    name: 'Average Temperature Inside'
+    duration:
+      days: 1
+    entities:
+      - sensor.ac_temperature
+      - sensor.bedroom_temperature
